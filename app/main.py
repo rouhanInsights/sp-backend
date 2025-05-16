@@ -4,12 +4,14 @@ from app.models import Base
 from app.routes import auth_routes, user_routes, feedback_routes  # Future routes
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import ai_routes
-
+from fastapi.staticfiles import StaticFiles
+import os
 app = FastAPI()
 
-# Create tables in database
+app.mount("/static", StaticFiles(directory=os.path.join(os.getcwd(), "static")), name="static")
+
 Base.metadata.create_all(bind=engine)
-# Enable CORS (Allow frontend requests)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Allow all origins for testing

@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field, validator
+from datetime import datetime
 
 class UserCreate(BaseModel):
     name: str
@@ -17,3 +18,14 @@ class UserCreate(BaseModel):
         if "password" in values and confirm_password != values["password"]:
             raise ValueError("Passwords do not match")
         return confirm_password
+
+class SysFeedbackOut(BaseModel):
+    clarity_score: float
+    fluency_score: float
+    correctness_score: float
+    ai_suggestion: str
+    created_at: datetime
+
+    model_config = {
+        "from_attributes": True
+    }
